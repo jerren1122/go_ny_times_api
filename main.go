@@ -18,6 +18,7 @@ func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/get-article", getArticle)
 	log.Fatal(http.ListenAndServe(":8081", router))
+	fmt.Fprintf(w, "Hello")
 }
 
 type JSONOutput struct {
