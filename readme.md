@@ -22,4 +22,10 @@ for the body we would pass {
                            "Year": "1989" 
                            }
                            
+#Docker 
+If you want to just run this API in a container that is surfaced to an external API: 
+1. cd into the ny_times dir 
+2. run 'docker image build ./ -t ny_times'
+3. run 'docker container run -p 8081:8081 ny_times'
+4. Now you will be able to interact in Postman the way I discussed before. 
                            
