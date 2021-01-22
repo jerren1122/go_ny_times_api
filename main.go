@@ -1,7 +1,6 @@
     package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
    "encoding/json"
@@ -9,10 +8,6 @@ import (
 	"os/exec"
 	"io/ioutil"
 )
-
-func homeLink(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome to this API")
-}
 
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
@@ -25,14 +20,10 @@ type JSONOutput struct {
 }
 
 func getArticle(w http.ResponseWriter, r *http.Request) {
-	reqBody,err:= ioutil.ReadAll(r.Body)
+	reqBody,_:= ioutil.ReadAll(r.Body)
 	var local JSONOutput
 	json.Unmarshal(reqBody, &local)
 	cmd := exec.Command("ruby", "ny_times.rb", local.Year)
-	output,err := cmd.Output()
-	if (err != nil) {
-		fmt.Fprintf(w, "Anarchy!!!")
-	}
+	output,_ := cmd.Output()
 	json.NewEncoder(w).Encode(string(output))
-
 }

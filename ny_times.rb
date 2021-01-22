@@ -12,9 +12,15 @@ class Execution
   end
 
   def find_article
-    @raw_response = RestClient::Request.execute(method: :get, url: request_url, timeout: 10, headers: header)
-    @response = JSON.parse(@raw_response)['response']['docs'].sample
-    output_hash = {"Abstract" => @response['abstract']}
+    begin
+      @raw_response = RestClient::Request.execute(method: :get, url: request_url, timeout: 10, headers: header)
+    rescue RestClient::Forbidden
+      @response = "Please Enter a valid year"
+      output_hash = {"Error" => @response}
+    else
+      @response = JSON.parse(@raw_response)['response']['docs'].sample
+      output_hash = {"Abstract" => @response['abstract']}
+    end
     JSON.generate(output_hash)
   end
 end
